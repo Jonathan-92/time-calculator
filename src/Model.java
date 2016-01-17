@@ -1,13 +1,14 @@
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
+import javax.swing.text.Document;
+
 public class Model {
-	private static final int WORK_DAY_LENGTH = 8;
+	private int workDayLength = 8;
 	private LocalTime checkInTime;
 	private LocalTime lunchBeginTime;
 	private LocalTime lunchEndTime;
 	private LocalTime goHomeTime;
-	private LocalTime workedHours;
 
 	public LocalTime getCheckInTime() {
 		return checkInTime;
@@ -34,17 +35,19 @@ public class Model {
 	}
 
 	public LocalTime getGoHomeTime() {
+		if (lunchBeginTime == null || lunchEndTime == null || checkInTime == null)
+			return null;
 		long lunchDuration = ChronoUnit.MINUTES.between(lunchBeginTime,
 				lunchEndTime);
-		return checkInTime.plusHours(WORK_DAY_LENGTH).plusMinutes(
+		return checkInTime.plusHours(workDayLength).plusMinutes(
 				lunchDuration);
 	}
 
-	public LocalTime getWorkedHours() {
-		return workedHours;
+	public int getWorkDayLength() {
+		return workDayLength;
 	}
 
-	public void setWorkedHours(LocalTime workedHours) {
-		this.workedHours = workedHours;
+	public void setWorkDayLength(int workDayLength) {
+		this.workDayLength = workDayLength;
 	}
 }

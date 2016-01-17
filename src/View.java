@@ -1,6 +1,6 @@
-import java.awt.Container;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,15 +12,16 @@ import javax.swing.JTextField;
 import com.horstmann.corejava.GBC;
 
 public class View {
-	final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+	final DateTimeFormatter hourMinuteFormatter = DateTimeFormatter
 			.ofPattern("H:m");
-	private final int TEXT_FIELD_WIDTH = 10;
+	final DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("H");
+	private final int TEXT_FIELD_WIDTH = 5;
 	private JFrame frame = new JFrame(Messages.getString("Main.0"));
-	private JTextField checkIn = new JTextField(TEXT_FIELD_WIDTH);
-	private JTextField lunchBegin = new JTextField(TEXT_FIELD_WIDTH);
-	private JTextField lunchEnd = new JTextField(TEXT_FIELD_WIDTH);
-	private JTextField goHome = new JTextField(TEXT_FIELD_WIDTH);
-	private JTextField workedHours = new JTextField(TEXT_FIELD_WIDTH);
+	public JTextField checkIn = new JTextField(TEXT_FIELD_WIDTH);
+	public JTextField lunchBegin = new JTextField(TEXT_FIELD_WIDTH);
+	public JTextField lunchEnd = new JTextField(TEXT_FIELD_WIDTH);
+	public JTextField goHome = new JTextField(TEXT_FIELD_WIDTH);
+	public JTextField workedHours = new JTextField(TEXT_FIELD_WIDTH);
 	private JPanel west = new JPanel(new GridBagLayout());
 	private JPanel east = new JPanel(new GridBagLayout());
 
@@ -38,31 +39,44 @@ public class View {
 		east.add(new JLabel(Messages.getString("Main.5")), new GBC(0, 1));
 		east.add(goHome, new GBC(1, 0));
 		east.add(workedHours, new GBC(1, 1));
-
+		
 		frame.add(west, new GBC(0, 0).setInsets(10));
 		frame.add(east, new GBC(1, 0).setInsets(10));
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+	public LocalTime getCheckInTime(KeyEvent e) {
+		return getTime(e, checkIn);
+	}
 	
-	public LocalTime getCheckInTime() {
-		return LocalTime.parse(checkIn.getText(), dateTimeFormatter);
+	private LocalTime getTime(KeyEvent e, JTextField field) {
+		String text = field.getText() + e.getKeyChar();
+		if (text.charAt(text.length() - 1) == ':')
+			return null;
+		if (text.equals(""))
+			return null;
+		if (text.length() < 3)
+			return LocalTime.parse(text, hourFormatter);
+		return LocalTime.parse(text, hourMinuteFormatter);
 	}
 
-	public LocalTime getLunchBeginTime() {
-		return LocalTime.parse(lunchBegin.getText(), dateTimeFormatter);
+	public LocalTime getLunchBeginTime(KeyEvent e) {
+		return getTime(e, lunchBegin);
 	}
-	
-	public LocalTime getLunchEndTime() {
-		return LocalTime.parse(lunchEnd.getText(), dateTimeFormatter);
+
+	public LocalTime getLunchEndTime(KeyEvent e) {
+		return getTime(e, lunchEnd);
 	}
-	
+
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
 
-	public void addActionListeners(ActionListener fieldListener) {
-		
+	public void addActionListeners(KeyAdapter fieldListener) {
+		checkIn.addKeyListener(fieldListener);
+		lunchBegin.addKeyListener(fieldListener);
+		lunchEnd.addKeyListener(fieldListener);
 	}
 
 }
