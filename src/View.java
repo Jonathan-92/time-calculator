@@ -15,48 +15,45 @@ import javax.swing.JTextField;
 import com.horstmann.corejava.GBC;
 
 public class View {
-	final DateTimeFormatter hourMinuteFormatter = DateTimeFormatter
-			.ofPattern("H:m");
-	final DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("H");
 	private final int TEXT_FIELD_WIDTH = 5;
 	private JFrame frame = new JFrame(Messages.getString("Main.0"));
 	private DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
-	public JFormattedTextField checkIn = new JFormattedTextField(dateFormat);
-	public JFormattedTextField lunchBegin = new JFormattedTextField(dateFormat);
-	public JFormattedTextField lunchEnd = new JFormattedTextField(dateFormat);
-	public JFormattedTextField goHome = new JFormattedTextField(dateFormat);
-	public JFormattedTextField desiredWorkedHours = new JFormattedTextField(dateFormat);
-	public JFormattedTextField actualWorkedHours = new JFormattedTextField(dateFormat);
-	public JButton confirm = new JButton("Confirm");
+	private JFormattedTextField checkIn = new JFormattedTextField(dateFormat);
+	private JFormattedTextField lunchBegin = new JFormattedTextField(dateFormat);
+	private JFormattedTextField lunchEnd = new JFormattedTextField(dateFormat);
+	private JFormattedTextField goHome = new JFormattedTextField(dateFormat);
+	private JFormattedTextField desiredWorkedHours = new JFormattedTextField(dateFormat);
+	private JFormattedTextField actualWorkedHours = new JFormattedTextField(dateFormat);
+	private JButton confirm = new JButton("Confirm");
 	private JPanel west = new JPanel(new GridBagLayout());
 	private JPanel east = new JPanel(new GridBagLayout());
 
 	public void init() {
 		frame.setLayout(new GridBagLayout());
 		
-		checkIn.setColumns(TEXT_FIELD_WIDTH);
-		lunchBegin.setColumns(TEXT_FIELD_WIDTH);
-		lunchEnd.setColumns(TEXT_FIELD_WIDTH);
-		goHome.setColumns(TEXT_FIELD_WIDTH);
-		desiredWorkedHours.setColumns(TEXT_FIELD_WIDTH);
-		actualWorkedHours.setColumns(TEXT_FIELD_WIDTH);
+		getCheckIn().setColumns(TEXT_FIELD_WIDTH);
+		getLunchBegin().setColumns(TEXT_FIELD_WIDTH);
+		getLunchEnd().setColumns(TEXT_FIELD_WIDTH);
+		getGoHome().setColumns(TEXT_FIELD_WIDTH);
+		getDesiredWorkedHours().setColumns(TEXT_FIELD_WIDTH);
+		getActualWorkedHours().setColumns(TEXT_FIELD_WIDTH);
 		
-		actualWorkedHours.setEditable(false);
+		getActualWorkedHours().setEditable(false);
 		
 		west.add(new JLabel(Messages.getString("Main.1")), new GBC(0, 0));
 		west.add(new JLabel(Messages.getString("Main.2")), new GBC(0, 1));
 		west.add(new JLabel(Messages.getString("Main.3")), new GBC(0, 2));
-		west.add(checkIn, new GBC(1, 0));
-		west.add(lunchBegin, new GBC(1, 1));
-		west.add(lunchEnd, new GBC(1, 2));
+		west.add(getCheckIn(), new GBC(1, 0));
+		west.add(getLunchBegin(), new GBC(1, 1));
+		west.add(getLunchEnd(), new GBC(1, 2));
 
 		east.add(new JLabel(Messages.getString("Main.4")), new GBC(0, 0));
 		east.add(new JLabel(Messages.getString("Main.5")), new GBC(0, 1));
 		east.add(new JLabel(Messages.getString("Main.6")), new GBC(0, 2));
-		east.add(goHome, new GBC(1, 0));
-		east.add(actualWorkedHours, new GBC(1, 1));
-		east.add(desiredWorkedHours, new GBC(1, 2));
-		east.add(confirm, new GBC(1, 3));
+		east.add(getGoHome(), new GBC(1, 0));
+		east.add(getActualWorkedHours(), new GBC(1, 1));
+		east.add(getDesiredWorkedHours(), new GBC(1, 2));
+		east.add(getConfirm(), new GBC(1, 3));
 		
 		frame.add(west, new GBC(0, 0).setInsets(10));
 		frame.add(east, new GBC(1, 0).setInsets(10));
@@ -64,37 +61,36 @@ public class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public LocalTime getCheckInTime(KeyEvent e) {
-		return getTime(e, checkIn);
-	}
-	
-	private LocalTime getTime(KeyEvent e, JTextField field) {
-		String text = field.getText() + e.getKeyChar();
-		if (text.charAt(text.length() - 1) == ':')
-			return null;
-		if (text.equals(""))
-			return null;
-		if (text.length() < 3)
-			return LocalTime.parse(text, hourFormatter);
-		return LocalTime.parse(text, hourMinuteFormatter);
-	}
-
-	public LocalTime getLunchBeginTime(KeyEvent e) {
-		return getTime(e, lunchBegin);
-	}
-
-	public LocalTime getLunchEndTime(KeyEvent e) {
-		return getTime(e, lunchEnd);
-	}
-
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
 
-	public void addActionListeners(KeyAdapter fieldListener) {
-		checkIn.addKeyListener(fieldListener);
-		lunchBegin.addKeyListener(fieldListener);
-		lunchEnd.addKeyListener(fieldListener);
+	public JFormattedTextField getDesiredWorkedHours() {
+		return desiredWorkedHours;
+	}
+
+	public JFormattedTextField getCheckIn() {
+		return checkIn;
+	}
+
+	public JFormattedTextField getLunchBegin() {
+		return lunchBegin;
+	}
+
+	public JFormattedTextField getLunchEnd() {
+		return lunchEnd;
+	}
+
+	public JButton getConfirm() {
+		return confirm;
+	}
+
+	public JFormattedTextField getGoHome() {
+		return goHome;
+	}
+
+	public JFormattedTextField getActualWorkedHours() {
+		return actualWorkedHours;
 	}
 
 }

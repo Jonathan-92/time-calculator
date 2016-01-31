@@ -1,16 +1,10 @@
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class Controller implements PropertyChangeListener {
 	private View view;
@@ -20,18 +14,18 @@ public class Controller implements PropertyChangeListener {
 		this.view = view;
 		this.model = model;
 		
-		view.desiredWorkedHours.setText(model.getDesiredWorkHours().toString());
+		view.getDesiredWorkedHours().setText(model.getDesiredWorkHours().toString());
 		
-		view.checkIn.addPropertyChangeListener("value", this);
-		view.lunchBegin.addPropertyChangeListener("value", this);
-		view.lunchEnd.addPropertyChangeListener("value", this);
-		view.desiredWorkedHours.addPropertyChangeListener("value", this);
-		view.confirm.addActionListener((e) -> update());
+		view.getCheckIn().addPropertyChangeListener("value", this);
+		view.getLunchBegin().addPropertyChangeListener("value", this);
+		view.getLunchEnd().addPropertyChangeListener("value", this);
+		view.getDesiredWorkedHours().addPropertyChangeListener("value", this);
+		view.getConfirm().addActionListener((e) -> update());
 	}
 
 	private void update() {
-		view.goHome.setText(model.getGoHomeTime().toString());
-		view.actualWorkedHours.setText(model.getActualWorkHours().toString());
+		view.getGoHome().setText(model.getGoHomeTime().toString());
+		view.getActualWorkedHours().setText(model.getActualWorkHours().toString());
 	}
 
 	@Override
@@ -44,15 +38,15 @@ public class Controller implements PropertyChangeListener {
 				ZoneId.systemDefault()).toLocalTime();
 		Object source = evt.getSource();
 
-		if (source == view.checkIn) {
+		if (source == view.getCheckIn()) {
 			model.setCheckInTime(localTime);
-		} else if (source == view.lunchBegin) {
+		} else if (source == view.getLunchBegin()) {
 			model.setLunchBeginTime(localTime);
-		} else if (source == view.lunchEnd) {
+		} else if (source == view.getLunchEnd()) {
 			model.setLunchEndTime(localTime);
-		} else if (source == view.desiredWorkedHours) {
+		} else if (source == view.getDesiredWorkedHours()) {
 			model.setDesiredWorkHours(localTime);
-		} else if (source == view.lunchEnd) {
+		} else if (source == view.getLunchEnd()) {
 			model.setLunchEndTime(localTime);
 		} 
 	}
