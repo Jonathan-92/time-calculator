@@ -20,13 +20,13 @@ public class View {
 	final DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("H");
 	private final int TEXT_FIELD_WIDTH = 5;
 	private JFrame frame = new JFrame(Messages.getString("Main.0"));
-	private DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
-	public JFormattedTextField checkIn = new JFormattedTextField(format);
-	public JFormattedTextField lunchBegin = new JFormattedTextField(format);
-	public JFormattedTextField lunchEnd = new JFormattedTextField(format);
-	public JFormattedTextField goHome = new JFormattedTextField(format);
-	public JTextField desiredWorkedHours = new JTextField(TEXT_FIELD_WIDTH);
-	public JTextField actualWorkedHours = new JTextField(TEXT_FIELD_WIDTH);
+	private DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+	public JFormattedTextField checkIn = new JFormattedTextField(dateFormat);
+	public JFormattedTextField lunchBegin = new JFormattedTextField(dateFormat);
+	public JFormattedTextField lunchEnd = new JFormattedTextField(dateFormat);
+	public JFormattedTextField goHome = new JFormattedTextField(dateFormat);
+	public JFormattedTextField desiredWorkedHours = new JFormattedTextField(dateFormat);
+	public JFormattedTextField actualWorkedHours = new JFormattedTextField(dateFormat);
 	public JButton confirm = new JButton("Confirm");
 	private JPanel west = new JPanel(new GridBagLayout());
 	private JPanel east = new JPanel(new GridBagLayout());
@@ -38,6 +38,10 @@ public class View {
 		lunchBegin.setColumns(TEXT_FIELD_WIDTH);
 		lunchEnd.setColumns(TEXT_FIELD_WIDTH);
 		goHome.setColumns(TEXT_FIELD_WIDTH);
+		desiredWorkedHours.setColumns(TEXT_FIELD_WIDTH);
+		actualWorkedHours.setColumns(TEXT_FIELD_WIDTH);
+		
+		actualWorkedHours.setEditable(false);
 		
 		west.add(new JLabel(Messages.getString("Main.1")), new GBC(0, 0));
 		west.add(new JLabel(Messages.getString("Main.2")), new GBC(0, 1));

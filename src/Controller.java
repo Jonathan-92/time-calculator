@@ -13,27 +13,25 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class Controller implements PropertyChangeListener {
-	final DateTimeFormatter hourMinuteFormatter = DateTimeFormatter
-			.ofPattern("H:m");
-	final DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("H");
 	private View view;
 	private Model model;
 
 	public Controller(View view, Model model) {
 		this.view = view;
 		this.model = model;
+		
+		view.desiredWorkedHours.setText(model.getDesiredWorkHours().toString());
+		
 		view.checkIn.addPropertyChangeListener("value", this);
 		view.lunchBegin.addPropertyChangeListener("value", this);
 		view.lunchEnd.addPropertyChangeListener("value", this);
+		view.desiredWorkedHours.addPropertyChangeListener("value", this);
 		view.confirm.addActionListener((e) -> update());
-	}
-
-	private LocalTime parseTime(String text) {
-		return LocalTime.parse(text, hourMinuteFormatter);
 	}
 
 	private void update() {
 		view.goHome.setText(model.getGoHomeTime().toString());
+		view.actualWorkedHours.setText(model.getActualWorkHours().toString());
 	}
 
 	@Override
@@ -52,7 +50,11 @@ public class Controller implements PropertyChangeListener {
 			model.setLunchBeginTime(localTime);
 		} else if (source == view.lunchEnd) {
 			model.setLunchEndTime(localTime);
-		}
+		} else if (source == view.desiredWorkedHours) {
+			model.setDesiredWorkHours(localTime);
+		} else if (source == view.lunchEnd) {
+			model.setLunchEndTime(localTime);
+		} 
 	}
 
 }
