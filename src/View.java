@@ -1,9 +1,12 @@
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,17 +20,25 @@ public class View {
 	final DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("H");
 	private final int TEXT_FIELD_WIDTH = 5;
 	private JFrame frame = new JFrame(Messages.getString("Main.0"));
-	public JTextField checkIn = new JTextField(TEXT_FIELD_WIDTH);
-	public JTextField lunchBegin = new JTextField(TEXT_FIELD_WIDTH);
-	public JTextField lunchEnd = new JTextField(TEXT_FIELD_WIDTH);
-	public JTextField goHome = new JTextField(TEXT_FIELD_WIDTH);
-	public JTextField workedHours = new JTextField(TEXT_FIELD_WIDTH);
+	private DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
+	public JFormattedTextField checkIn = new JFormattedTextField(format);
+	public JFormattedTextField lunchBegin = new JFormattedTextField(format);
+	public JFormattedTextField lunchEnd = new JFormattedTextField(format);
+	public JFormattedTextField goHome = new JFormattedTextField(format);
+	public JTextField desiredWorkedHours = new JTextField(TEXT_FIELD_WIDTH);
+	public JTextField actualWorkedHours = new JTextField(TEXT_FIELD_WIDTH);
+	public JButton confirm = new JButton("Confirm");
 	private JPanel west = new JPanel(new GridBagLayout());
 	private JPanel east = new JPanel(new GridBagLayout());
 
 	public void init() {
 		frame.setLayout(new GridBagLayout());
-
+		
+		checkIn.setColumns(TEXT_FIELD_WIDTH);
+		lunchBegin.setColumns(TEXT_FIELD_WIDTH);
+		lunchEnd.setColumns(TEXT_FIELD_WIDTH);
+		goHome.setColumns(TEXT_FIELD_WIDTH);
+		
 		west.add(new JLabel(Messages.getString("Main.1")), new GBC(0, 0));
 		west.add(new JLabel(Messages.getString("Main.2")), new GBC(0, 1));
 		west.add(new JLabel(Messages.getString("Main.3")), new GBC(0, 2));
@@ -37,8 +48,11 @@ public class View {
 
 		east.add(new JLabel(Messages.getString("Main.4")), new GBC(0, 0));
 		east.add(new JLabel(Messages.getString("Main.5")), new GBC(0, 1));
+		east.add(new JLabel(Messages.getString("Main.6")), new GBC(0, 2));
 		east.add(goHome, new GBC(1, 0));
-		east.add(workedHours, new GBC(1, 1));
+		east.add(actualWorkedHours, new GBC(1, 1));
+		east.add(desiredWorkedHours, new GBC(1, 2));
+		east.add(confirm, new GBC(1, 3));
 		
 		frame.add(west, new GBC(0, 0).setInsets(10));
 		frame.add(east, new GBC(1, 0).setInsets(10));

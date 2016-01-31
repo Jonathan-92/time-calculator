@@ -3,7 +3,7 @@ import java.time.temporal.ChronoUnit;
 
 import javax.swing.text.Document;
 
-public class Model {
+public class Model implements TestInterface {
 	private int workDayLength = 8;
 	private LocalTime checkInTime;
 	private LocalTime lunchBeginTime;
