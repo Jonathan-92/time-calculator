@@ -25,6 +25,7 @@ public class View {
 	private JFormattedTextField desiredWorkedHours = new JFormattedTextField(dateFormat);
 	private JFormattedTextField actualWorkedHours = new JFormattedTextField(dateFormat);
 	private JButton confirm = new JButton("Confirm");
+	private JButton now = new JButton("Now");
 	private JPanel west = new JPanel(new GridBagLayout());
 	private JPanel east = new JPanel(new GridBagLayout());
 
@@ -46,6 +47,7 @@ public class View {
 		west.add(getCheckIn(), new GBC(1, 0));
 		west.add(getLunchBegin(), new GBC(1, 1));
 		west.add(getLunchEnd(), new GBC(1, 2));
+		west.add(now, new GBC(1, 3));
 
 		east.add(new JLabel(Messages.getString("Main.4")), new GBC(0, 0));
 		east.add(new JLabel(Messages.getString("Main.5")), new GBC(0, 1));
@@ -58,6 +60,7 @@ public class View {
 		frame.add(west, new GBC(0, 0).setInsets(10));
 		frame.add(east, new GBC(1, 0).setInsets(10));
 		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -91,6 +94,14 @@ public class View {
 
 	public JFormattedTextField getActualWorkedHours() {
 		return actualWorkedHours;
+	}
+
+	public JButton getNow() {
+		return now;
+	}
+
+	public JFrame getFrame() {
+		return frame;
 	}
 
 }
